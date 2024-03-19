@@ -1,0 +1,92 @@
+##############################
+####  PROGRAM PARAMETERS  ####
+##############################
+backend = CPU
+CUDA_list = verlet
+#debug = 1
+#seed = 4982
+
+##############################
+####    SIM PARAMETERS    ####
+##############################
+sim_type = MD
+ensemble = NVT
+
+newtonian_steps = 53
+diff_coeff = 1.00
+#pt = 0.1
+thermostat = brownian
+
+box_type = cubic
+cells_auto_optimisation = false
+energy_threshold = 10
+max_density_multiplier = 10
+
+use_barostat = false
+barostat_probability = 0.1
+P = 0
+delta_L = 0.1
+
+T = 0.08
+dt = 0.002
+verlet_skin = 0.1
+energy_threshold = 200
+
+steps = 2e8
+check_energy_every = 10000
+check_energy_threshold = 1.e-4
+
+interaction_type = DetailedPatchySwapInteraction
+DPS_lambda = 1
+DPS_interaction_matrix_file = interaction_matrix.dat
+
+##############################
+####    INPUT / OUTPUT    ####
+##############################
+topology = topology.dat
+conf_file = init_conf.dat
+trajectory_file = trajectory.dat
+refresh_vel = true
+#log_file = log.dat
+no_stdout_energy = 0
+restart_step_counter = true
+energy_file = energy.dat
+print_conf_interval = 100
+print_conf_ppc = 40
+print_energy_every = 10000
+time_scale = log_lin
+
+#external_forces = true
+#external_forces_file = forces.ext
+
+plugin_search_path = ../../code/contrib/rovigatti
+
+data_output_1 = {
+              name = bonds.dat
+              print_every = 100000
+              col_1 = {
+                    type = Bonds
+		    bond_energy_term_id = 0
+              }
+}
+
+data_output_2 = {
+              name = last_backup.dat
+              only_last = true
+              print_every = 100000
+              col_1 = {
+                    type = configuration
+              }
+}
+
+data_output_3 = {
+        name = Gt.dat
+        print_every = 100000
+        only_last = true
+        col_1 = {
+            type = stress_autocorrelation
+            update_every = 3
+            p = 16
+            m = 2
+    }
+}
